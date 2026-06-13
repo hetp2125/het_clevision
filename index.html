@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clevision — Digital Experiences That Convert</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'] },
+          colors: {
+            violet: { 50:'#f3f1ff',100:'#e9e6ff',200:'#d5cfff',300:'#b8adff',400:'#9b86ff',500:'#7c5cfc',600:'#6b3ff5',700:'#5a2de0',800:'#4a25b8',900:'#3b1e93' },
+            slate: { 50:'#f8fafc',100:'#f1f5f9',200:'#e2e8f0',300:'#cbd5e1',400:'#94a3b8',500:'#64748b',600:'#475569',700:'#334155',800:'#1e293b',900:'#0f172a',950:'#080f1f' }
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+   
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Soft mesh gradient */
+    .mesh-bg {
+      background-color: #080f1f;
+      background-image:
+        radial-gradient(ellipse 70% 55% at 80% 10%,  #6b3ff514 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 10% 80%,  #9b86ff0c 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 50% 50%,  #5a2de008 0%, transparent 70%);
+    }
+
+    /* Animated gradient text */
+    .g-text {
+      background: linear-gradient(110deg, #9b86ff 0%, #c4b5fd 40%, #7c5cfc 70%, #a78bfa 100%);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+    /* CTA pill glow */
+    .btn-primary {
+      background: linear-gradient(135deg, #7c5cfc 0%, #6b3ff5 100%);
+      box-shadow: 0 0 0 1px #9b86ff30, 0 8px 24px #7c5cfc30;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 1px #9b86ff40, 0 12px 32px #7c5cfc45;
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* Outline btn */
+    .btn-ghost {
+      border: 1px solid #334155;
+      transition: border-color .18s, background .18s, transform .18s;
+    }
+    .btn-ghost:hover { border-color: #7c5cfc; background: #7c5cfc10; transform: translateY(-1px); }
+
+    /* Card hover */
+    .svc-card {
+      border: 1px solid #1e293b;
+      background: #0d1528;
+      transition: border-color .22s, transform .22s, background .22s;
+    }
+    .svc-card:hover {
+      border-color: #7c5cfc50;
+      background: #11192e;
+      transform: translateY(-4px);
+    }
+
+    /* Nav link underline */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -2px;
+      height: 1.5px; width: 0;
+      background: #7c5cfc;
+      border-radius: 2px;
+      transition: width .22s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Hamburger */
+    #ham span { display: block; height: 1.5px; background: #94a3b8; border-radius: 2px; transition: all .25s ease; }
+    #ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #ham.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #ham.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Tag badge */
+    .tag {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .22em .75em;
+      border-radius: 99px;
+    }
+
+    /* Stats divider */
+    .stat + .stat { border-left: 1px solid #1e293b; }
+
+    /* Floating card badge on hero image */
+    .float-badge {
+      background: #0d1528;
+      border: 1px solid #1e293b;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Social icon hover */
+    .soc { transition: color .18s, background .18s; }
+    .soc:hover { color: #7c5cfc !important; background: #7c5cfc14 !important; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #080f1f; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    /* Mobile menu */
+    #mobile-nav { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+    #mobile-nav.open { max-height: 400px; }
+
+    /* Subtle dot grid on about section */
+    .dot-grid {
+      background-image: radial-gradient(circle, #334155 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 antialiased overflow-x-hidden">
+
+  <!-- ══════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════ -->
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-slate-800/60" style="background:rgba(8,15,31,.82);backdrop-filter:blur(18px);">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 select-none group">
+          <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold" style="background:linear-gradient(135deg,#7c5cfc,#6b3ff5)">C</span>
+          <span class="font-bold text-base text-white tracking-tight">Clevision</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center gap-7">
+          <a href="#" class="nav-link text-sm text-slate-400 hover:text-white transition-colors font-medium">Home</a>
+          <a href="#about" class="nav-link text-sm text-slate-400 hover:text-white transition-colors font-medium">About</a>
+          <a href="#services" class="nav-link text-sm text-slate-400 hover:text-white transition-colors font-medium">Services</a>
+          <a href="#contact" class="nav-link text-sm text-slate-400 hover:text-white transition-colors font-medium">Contact</a>
+        </nav>
+
+        <div class="hidden md:flex items-center gap-3">
+          <a href="#contact" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors px-4 py-2">Talk to us</a>
+          <a href="#contact" class="btn-primary text-white text-sm font-semibold px-5 py-2 rounded-full inline-flex items-center gap-1.5">
+            Get Started
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <!-- Hamburger -->
+        <button id="ham" class="md:hidden w-9 h-9 flex flex-col justify-center gap-[5px] rounded-lg px-1.5 focus:outline-none" aria-label="Toggle menu">
+          <span class="w-5"></span>
+          <span class="w-5"></span>
+          <span class="w-3.5"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-nav">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 pb-5 flex flex-col gap-1 border-t border-slate-800/60">
+        <a href="#" onclick="closeNav()" class="py-2.5 text-sm font-semibold text-violet-400">Home</a>
+        <a href="#about" onclick="closeNav()" class="py-2.5 text-sm font-medium text-slate-400 hover:text-white transition-colors">About</a>
+        <a href="#services" onclick="closeNav()" class="py-2.5 text-sm font-medium text-slate-400 hover:text-white transition-colors">Services</a>
+        <a href="#contact" onclick="closeNav()" class="py-2.5 text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        <a href="#contact" onclick="closeNav()" class="mt-2 btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full text-center">Get Started →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       HERO
+  ══════════════════════════════════════ -->
+  <section class="relative min-h-screen mesh-bg grain flex items-center pt-16">
+    <!-- Glow blobs -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div style="position:absolute;top:-120px;right:-80px;width:600px;height:600px;background:radial-gradient(circle,#7c5cfc0f 0%,transparent 65%);border-radius:50%;"></div>
+      <div style="position:absolute;bottom:-100px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,#9b86ff08 0%,transparent 60%);border-radius:50%;"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 py-24 md:py-32 w-full">
+      <div class="flex flex-col md:flex-row items-center gap-14 md:gap-16">
+
+        <!-- LEFT: Text -->
+        <div class="flex-1 text-center md:text-left">
+
+          <div class="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10">
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+            <span class="text-violet-300 text-xs font-semibold tracking-wide uppercase">Now onboarding clients for Q3 2026</span>
+          </div>
+
+          <h1 class="font-extrabold text-white leading-[1.07] mb-6" style="font-size:clamp(2.4rem,5vw,3.75rem);">
+            Building the<br/>
+            <span class="g-text">Future of Web</span><br/>
+            — one pixel at a time.
+          </h1>
+
+          <p class="text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto md:mx-0" style="font-size:1.05rem;">
+            We turn ambitious ideas into polished digital products. From brand identity to full-stack development, Clevision delivers work that moves needles.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 mb-12">
+            <a href="#contact" class="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 text-white font-semibold px-7 py-3.5 rounded-full text-sm">
+              Start a project
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+            <a href="#services" class="btn-ghost w-full sm:w-auto inline-flex items-center justify-center gap-2 text-slate-300 font-semibold px-7 py-3.5 rounded-full text-sm">
+              See our work
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="flex justify-center md:justify-start">
+            <div class="flex divide-x divide-slate-800">
+              <div class="stat pr-7 text-center md:text-left">
+                <p class="text-2xl font-bold text-white tracking-tight">200+</p>
+                <p class="text-xs text-slate-500 mt-0.5 font-medium">Projects launched</p>
+              </div>
+              <div class="stat px-7 text-center md:text-left">
+                <p class="text-2xl font-bold text-white tracking-tight">98%</p>
+                <p class="text-xs text-slate-500 mt-0.5 font-medium">Happy clients</p>
+              </div>
+              <div class="stat pl-7 text-center md:text-left">
+                <p class="text-2xl font-bold text-white tracking-tight">12yr</p>
+                <p class="text-xs text-slate-500 mt-0.5 font-medium">In the industry</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Image -->
+        <div class="flex-1 w-full max-w-sm md:max-w-none">
+          <div class="relative">
+            <!-- Glow ring -->
+            <div style="position:absolute;inset:-12px;border-radius:1.5rem;background:linear-gradient(135deg,#7c5cfc18,#9b86ff10);filter:blur(16px);"></div>
+
+            <div style="position:relative;border-radius:1.25rem;overflow:hidden;border:1px solid #1e293b;">
+              <img
+                src="https://placehold.co/700x500/0d1528/7c5cfc?text=Clevision+Studio"
+                alt="Clevision project preview"
+                class="w-full block"
+                style="display:block;"
+              />
+              <!-- image overlay shimmer -->
+              <div style="position:absolute;inset:0;background:linear-gradient(160deg,#7c5cfc08 0%,transparent 60%);pointer-events:none;"></div>
+            </div>
+
+            <!-- Floating badge — bottom left -->
+            <div class="float-badge absolute -bottom-5 -left-4 rounded-2xl px-4 py-3 flex items-center gap-3 shadow-xl">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center text-base" style="background:#7c5cfc20;color:#9b86ff;">⚡</div>
+              <div>
+                <p class="text-xs font-semibold text-white leading-none">Lighthouse 99+</p>
+                <p class="text-xs text-slate-500 mt-0.5">Performance first</p>
+              </div>
+            </div>
+
+            <!-- Floating badge — top right -->
+            <div class="float-badge absolute -top-4 -right-3 rounded-xl px-3.5 py-2.5 flex items-center gap-2 shadow-xl">
+              <div class="flex -space-x-1.5">
+                <div class="w-6 h-6 rounded-full border-2 border-slate-900" style="background:#7c5cfc;"></div>
+                <div class="w-6 h-6 rounded-full border-2 border-slate-900" style="background:#6b3ff5;"></div>
+                <div class="w-6 h-6 rounded-full border-2 border-slate-900" style="background:#9b86ff;"></div>
+              </div>
+              <p class="text-xs font-semibold text-white">14 designers &amp; devs</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ABOUT
+  ══════════════════════════════════════ -->
+  <section id="about" class="relative py-24 md:py-28 bg-slate-950">
+    <div class="pointer-events-none absolute inset-0 dot-grid opacity-30"></div>
+    <div class="relative max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="grid md:grid-cols-2 gap-14 items-center">
+        <div>
+          <span class="tag bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-5 inline-block">About us</span>
+          <h2 class="font-extrabold text-white leading-tight mb-5" style="font-size:clamp(1.9rem,3.5vw,2.75rem);">
+            We're the studio behind brands you trust.
+          </h2>
+          <p class="text-slate-400 leading-relaxed mb-4">
+            Founded in 2014, Clevision partners with startups and enterprises to design, build, and scale digital products. We're not just a vendor — we're the team you call when quality actually matters.
+          </p>
+          <p class="text-slate-500 leading-relaxed text-sm">
+            Our multidisciplinary team blends design thinking with engineering rigour. Every project starts with strategy and ends with results you can measure.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Value tiles -->
+          <div class="svc-card rounded-2xl p-5">
+            <div class="text-2xl mb-3">🎯</div>
+            <p class="font-semibold text-white text-sm mb-1">Strategy-first</p>
+            <p class="text-slate-500 text-xs leading-relaxed">We solve the right problem before writing a single line of code.</p>
+          </div>
+          <div class="svc-card rounded-2xl p-5">
+            <div class="text-2xl mb-3">🔬</div>
+            <p class="font-semibold text-white text-sm mb-1">Detail-obsessed</p>
+            <p class="text-slate-500 text-xs leading-relaxed">Pixels matter. Interactions matter. Everything is intentional.</p>
+          </div>
+          <div class="svc-card rounded-2xl p-5">
+            <div class="text-2xl mb-3">🚀</div>
+            <p class="font-semibold text-white text-sm mb-1">Ship fast</p>
+            <p class="text-slate-500 text-xs leading-relaxed">We move quickly without cutting corners on craft.</p>
+          </div>
+          <div class="svc-card rounded-2xl p-5">
+            <div class="text-2xl mb-3">📈</div>
+            <p class="font-semibold text-white text-sm mb-1">Outcome-driven</p>
+            <p class="text-slate-500 text-xs leading-relaxed">We measure success by your growth, not our deliverables.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SERVICES
+  ══════════════════════════════════════ -->
+  <section id="services" style="background:#060c1a;" class="py-24 md:py-28">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="max-w-xl mx-auto text-center mb-14">
+        <span class="tag bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-4 inline-block">Services</span>
+        <h2 class="font-extrabold text-white leading-tight mb-3" style="font-size:clamp(1.9rem,3.5vw,2.6rem);">Everything you need to launch and grow</h2>
+        <p class="text-slate-500 text-sm leading-relaxed">From zero to scaled — we handle the full spectrum of digital product work.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="svc-card rounded-2xl p-7 group">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:#7c5cfc18;">🎨</div>
+          <h3 class="font-bold text-white text-base mb-2">UI / UX Design</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">Research-backed interfaces that delight users and drive conversion.</p>
+          <span class="text-violet-400 text-xs font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+
+        <div class="svc-card rounded-2xl p-7 group">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:#7c5cfc18;">⚙️</div>
+          <h3 class="font-bold text-white text-base mb-2">Web Development</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">Fast, accessible, production-grade apps built with modern stacks.</p>
+          <span class="text-violet-400 text-xs font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+
+        <div class="svc-card rounded-2xl p-7 group">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:#7c5cfc18;">📱</div>
+          <h3 class="font-bold text-white text-base mb-2">Mobile Apps</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">iOS and Android experiences that users actually want to open again.</p>
+          <span class="text-violet-400 text-xs font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+
+        <div class="svc-card rounded-2xl p-7 group">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:#7c5cfc18;">🔒</div>
+          <h3 class="font-bold text-white text-base mb-2">Brand Identity</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">Logo, type, colour, and voice — a system that scales as you grow.</p>
+          <span class="text-violet-400 text-xs font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+
+        <div class="svc-card rounded-2xl p-7 group">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:#7c5cfc18;">📈</div>
+          <h3 class="font-bold text-white text-base mb-2">SEO &amp; Performance</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">Core Web Vitals, technical SEO, and CRO baked in from day one.</p>
+          <span class="text-violet-400 text-xs font-semibold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Learn more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+
+        <!-- CTA tile -->
+        <div class="rounded-2xl p-7 flex flex-col justify-between" style="background:linear-gradient(135deg,#7c5cfc18,#6b3ff510);border:1px solid #7c5cfc30;">
+          <p class="font-bold text-white text-base mb-3">Got a project in mind?</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">Let's talk. We usually reply within a few hours.</p>
+          <a href="#contact" class="btn-primary inline-flex items-center justify-center gap-1.5 text-white text-sm font-semibold px-5 py-2.5 rounded-full self-start">
+            Contact us →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer id="contact" style="background:#040912;border-top:1px solid #0f1a2e;">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-8">
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-slate-800/60">
+
+        <!-- Brand -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold" style="background:linear-gradient(135deg,#7c5cfc,#6b3ff5)">C</span>
+            <span class="font-bold text-base text-white">Clevision</span>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-xs mb-6">
+            We design and build digital products that grow with your business. Based in Ahmedabad — working globally.
+          </p>
+          <!-- Socials -->
+          <div class="flex gap-2">
+            <a href="#" aria-label="Twitter / X" class="soc w-9 h-9 rounded-lg flex items-center justify-center text-slate-400" style="border:1px solid #1e293b;">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" class="soc w-9 h-9 rounded-lg flex items-center justify-center text-slate-400" style="border:1px solid #1e293b;">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="GitHub" class="soc w-9 h-9 rounded-lg flex items-center justify-center text-slate-400" style="border:1px solid #1e293b;">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="soc w-9 h-9 rounded-lg flex items-center justify-center text-slate-400" style="border:1px solid #1e293b;">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div>
+          <p class="text-xs font-semibold tracking-widest text-slate-600 uppercase mb-5">Navigate</p>
+          <ul class="flex flex-col gap-3 text-sm">
+            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Home</a></li>
+            <li><a href="#about" class="text-slate-400 hover:text-white transition-colors">About</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-white transition-colors">Services</a></li>
+            <li><a href="#contact" class="text-slate-400 hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <p class="text-xs font-semibold tracking-widest text-slate-600 uppercase mb-5">Contact</p>
+          <ul class="flex flex-col gap-4 text-sm">
+            <li>
+              <p class="text-xs text-slate-600 font-medium uppercase tracking-wide mb-0.5">Email</p>
+              <a href="mailto:hello@clevision.tech" class="text-slate-400 hover:text-violet-400 transition-colors break-all">hello@clevision.tech</a>
+            </li>
+            <li>
+              <p class="text-xs text-slate-600 font-medium uppercase tracking-wide mb-0.5">Phone</p>
+              <a href="tel:+911800123456" class="text-slate-400 hover:text-violet-400 transition-colors">+91 1800 123 456</a>
+            </li>
+            <li>
+              <p class="text-xs text-slate-600 font-medium uppercase tracking-wide mb-0.5">Location</p>
+              <span class="text-slate-400">Ahmedabad, Gujarat, India</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-xs text-slate-600">© 2026 Clevision Technologies. All rights reserved.</p>
+        <div class="flex gap-5 text-xs text-slate-600">
+          <a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-slate-400 transition-colors">Cookies</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('ham');
+    const nav = document.getElementById('mobile-nav');
+    let open = false;
+
+    ham.addEventListener('click', () => {
+      open = !open;
+      ham.classList.toggle('open', open);
+      nav.classList.toggle('open', open);
+    });
+
+    function closeNav() {
+      open = false;
+      ham.classList.remove('open');
+      nav.classList.remove('open');
+    }
+  </script>
+
+</body>
+</html>
